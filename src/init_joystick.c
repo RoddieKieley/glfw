@@ -25,3 +25,22 @@ static _GLFWinitconfigjoystick _glfwInitHintsJoystick =
 //    _glfw_joystick.mappings = NULL;
 //    _glfw_joystick.mappingCount = 0;
 //}
+
+//////////////////////////////////////////////////////////////////////////
+//////                        GLFW public API                       //////
+//////////////////////////////////////////////////////////////////////////
+
+GLFWAPI int glfwInitJoystick(void)
+{
+    if (_glfw_joystick.initialized)
+        return GLFW_TRUE;
+
+    memset(&_glfw_joystick, 0, sizeof(_glfw_joystick));
+    _glfw_joystick.hints.init = _glfwInitHintsJoystick;
+
+    _glfwInitGamepadMappings();
+
+    _glfw_joystick.initialized = GLFW_TRUE;
+
+    return GLFW_TRUE;
+}

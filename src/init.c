@@ -51,6 +51,7 @@ _GLFWlibrary _glfw = { GLFW_FALSE };
 static _GLFWerror _glfwMainThreadError;
 static GLFWerrorfun _glfwErrorCallback;
 extern void terminate_joystick(void);
+extern GLFWAPI int glfwInitJoystick(void);
 static _GLFWinitconfig _glfwInitHints =
 {
 //    GLFW_TRUE,      // hat buttons
@@ -228,8 +229,10 @@ GLFWAPI int glfwInit(void)
     if (_glfw.initialized)
         return GLFW_TRUE;
 
-    memset(&_glfw, 0, sizeof(_glfw));
-    _glfw.hints.init = _glfwInitHints;
+//    memset(&_glfw, 0, sizeof(_glfw));
+//    _glfw.hints.init = _glfwInitHints;
+
+    glfwInitJoystick();
 
     if (!_glfwPlatformInit())
     {
@@ -247,12 +250,14 @@ GLFWAPI int glfwInit(void)
 
     _glfwPlatformSetTls(&_glfw.errorSlot, &_glfwMainThreadError);
 
-    _glfwInitGamepadMappings();
+//    _glfwInitGamepadMappings();
 
     _glfw.initialized = GLFW_TRUE;
     _glfw.timer.offset = _glfwPlatformGetTimerValue();
 
     glfwDefaultWindowHints();
+
+//    glfwInitJoystick();
     return GLFW_TRUE;
 }
 
