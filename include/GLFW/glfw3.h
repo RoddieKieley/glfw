@@ -321,22 +321,22 @@ extern "C" {
 // */
 //#define GLFW_FALSE                  0
 
-/*! @name Key and button actions
- *  @{ */
-/*! @brief The key or mouse button was released.
- *
- *  The key or mouse button was released.
- *
- *  @ingroup input
- */
-#define GLFW_RELEASE                0
-/*! @brief The key or mouse button was pressed.
- *
- *  The key or mouse button was pressed.
- *
- *  @ingroup input
- */
-#define GLFW_PRESS                  1
+///*! @name Key and button actions
+// *  @{ */
+///*! @brief The key or mouse button was released.
+// *
+// *  The key or mouse button was released.
+// *
+// *  @ingroup input
+// */
+//#define GLFW_RELEASE                0
+///*! @brief The key or mouse button was pressed.
+// *
+// *  The key or mouse button was pressed.
+// *
+// *  @ingroup input
+// */
+//#define GLFW_PRESS                  1
 /*! @brief The key was held down until it repeated.
  *
  *  The key was held down until it repeated.
@@ -669,15 +669,15 @@ extern "C" {
  *  @analysis Yay.
  */
 #define GLFW_NO_ERROR               0
-/*! @brief GLFW has not been initialized.
- *
- *  This occurs if a GLFW function was called that must not be called unless the
- *  library is [initialized](@ref intro_init).
- *
- *  @analysis Application programmer error.  Initialize GLFW before calling any
- *  function that requires initialization.
- */
-#define GLFW_NOT_INITIALIZED        0x00010001
+///*! @brief GLFW has not been initialized.
+// *
+// *  This occurs if a GLFW function was called that must not be called unless the
+// *  library is [initialized](@ref intro_init).
+// *
+// *  @analysis Application programmer error.  Initialize GLFW before calling any
+// *  function that requires initialization.
+// */
+//#define GLFW_NOT_INITIALIZED        0x00010001
 /*! @brief No context is current for this thread.
  *
  *  This occurs if a GLFW function was called that needs and operates on the
@@ -688,14 +688,14 @@ extern "C" {
  *  calling functions that require a current context.
  */
 #define GLFW_NO_CURRENT_CONTEXT     0x00010002
-/*! @brief One of the arguments to the function was an invalid enum value.
- *
- *  One of the arguments to the function was an invalid enum value, for example
- *  requesting @ref GLFW_RED_BITS with @ref glfwGetWindowAttrib.
- *
- *  @analysis Application programmer error.  Fix the offending call.
- */
-#define GLFW_INVALID_ENUM           0x00010003
+///*! @brief One of the arguments to the function was an invalid enum value.
+// *
+// *  One of the arguments to the function was an invalid enum value, for example
+// *  requesting @ref GLFW_RED_BITS with @ref glfwGetWindowAttrib.
+// *
+// *  @analysis Application programmer error.  Fix the offending call.
+// */
+//#define GLFW_INVALID_ENUM           0x00010003
 ///*! @brief One of the arguments to the function was an invalid value.
 // *
 // *  One of the arguments to the function was an invalid value, for example
@@ -748,17 +748,17 @@ extern "C" {
  *  will exist.
  */
 #define GLFW_VERSION_UNAVAILABLE    0x00010007
-/*! @brief A platform-specific error occurred that does not match any of the
- *  more specific categories.
- *
- *  A platform-specific error occurred that does not match any of the more
- *  specific categories.
- *
- *  @analysis A bug or configuration error in GLFW, the underlying operating
- *  system or its drivers, or a lack of required resources.  Report the issue to
- *  our [issue tracker](https://github.com/glfw/glfw/issues).
- */
-#define GLFW_PLATFORM_ERROR         0x00010008
+///*! @brief A platform-specific error occurred that does not match any of the
+// *  more specific categories.
+// *
+// *  A platform-specific error occurred that does not match any of the more
+// *  specific categories.
+// *
+// *  @analysis A bug or configuration error in GLFW, the underlying operating
+// *  system or its drivers, or a lack of required resources.  Report the issue to
+// *  our [issue tracker](https://github.com/glfw/glfw/issues).
+// */
+//#define GLFW_PLATFORM_ERROR         0x00010008
 /*! @brief The requested format is not supported or available.
  *
  *  If emitted during window creation, the requested pixel format is not
@@ -1104,8 +1104,8 @@ extern "C" {
 #define GLFW_VRESIZE_CURSOR         0x00036006
 /*! @} */
 
-#define GLFW_CONNECTED              0x00040001
-#define GLFW_DISCONNECTED           0x00040002
+//#define GLFW_CONNECTED              0x00040001
+//#define GLFW_DISCONNECTED           0x00040002
 
 ///*! @addtogroup init
 // *  @{ */

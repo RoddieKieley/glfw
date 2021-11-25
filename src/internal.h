@@ -215,14 +215,14 @@ typedef void (APIENTRY * PFN_vkVoidFunction)(void);
         return x;                                    \
     }
 
-// Swaps the provided pointers
-#define _GLFW_SWAP_POINTERS(x, y) \
-    {                             \
-        void* t;                  \
-        t = x;                    \
-        x = y;                    \
-        y = t;                    \
-    }
+//// Swaps the provided pointers
+//#define _GLFW_SWAP_POINTERS(x, y) \
+//    {                             \
+//        void* t;                  \
+//        t = x;                    \
+//        x = y;                    \
+//        y = t;                    \
+//    }
 
 // Per-thread error structure
 //
@@ -239,7 +239,7 @@ struct _GLFWerror
 //
 struct _GLFWinitconfig
 {
-    GLFWbool      hatButtons;
+//    GLFWbool      hatButtons;
     struct {
         GLFWbool  menubar;
         GLFWbool  chdir;
@@ -576,8 +576,8 @@ struct _GLFWlibrary
     _GLFW_PLATFORM_LIBRARY_WINDOW_STATE;
     // This is defined in the context API's context.h
     _GLFW_PLATFORM_LIBRARY_CONTEXT_STATE;
-    // This is defined in the platform's joystick.h
-    _GLFW_PLATFORM_LIBRARY_JOYSTICK_STATE;
+//    // This is defined in the platform's joystick.h
+//    _GLFW_PLATFORM_LIBRARY_JOYSTICK_STATE;
     // This is defined in egl_context.h
     _GLFW_EGL_LIBRARY_CONTEXT_STATE;
     // This is defined in osmesa_context.h
@@ -775,6 +775,6 @@ void _glfwTerminateVulkan(void);
 const char* _glfwGetVulkanResultString(VkResult result);
 
 char* _glfw_strdup(const char* source);
-float _glfw_fminf(float a, float b);
-float _glfw_fmaxf(float a, float b);
+//float _glfw_fminf(float a, float b);
+//float _glfw_fmaxf(float a, float b);
 

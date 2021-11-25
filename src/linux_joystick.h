@@ -24,6 +24,9 @@
 //
 //========================================================================
 
+#ifndef GLFW_LINUX_JOYSTICK_H
+#define GLFW_LINUX_JOYSTICK_H
+
 #include <linux/input.h>
 #include <linux/limits.h>
 #include <regex.h>
@@ -61,3 +64,4 @@ GLFWbool _glfwInitJoysticksLinux(void);
 void _glfwTerminateJoysticksLinux(void);
 void _glfwDetectJoystickConnectionLinux(void);
 
+#endif // GLFW_LINUX_JOYSTICK_H

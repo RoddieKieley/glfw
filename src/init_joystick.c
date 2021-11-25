@@ -10,14 +10,18 @@
 #include <stdarg.h>
 #include <assert.h>
 
+// Global state shared between compilation units of GLFW
+//
+_GLFWlibraryjoystick _glfw_joystick = { GLFW_FALSE };
+
 static _GLFWinitconfigjoystick _glfwInitHintsJoystick =
 {
         GLFW_TRUE      // hat buttons
 };
 
-static void terminate_joystick(void)
-{
-    free(_glfw_joystick.mappings);
-    _glfw_joystick.mappings = NULL;
-    _glfw_joystick.mappingCount = 0;
-}
+//static void terminate_joystick(void)
+//{
+//    free(_glfw_joystick.mappings);
+//    _glfw_joystick.mappings = NULL;
+//    _glfw_joystick.mappingCount = 0;
+//}

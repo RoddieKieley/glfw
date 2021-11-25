@@ -11,7 +11,9 @@
 
 #include "../include/GLFW/glfw3joystick.h"
 #include "../include/GLFW/glfw3common.h"
+#include "linux_joystick.h"
 #include <stdint.h>
+#include <stdlib.h>
 
 #define _GLFW_POLL_PRESENCE     0
 #define _GLFW_POLL_AXES         1
@@ -66,8 +68,27 @@ struct _GLFWjoystick
     _GLFW_PLATFORM_JOYSTICK_STATE;
 };
 
+// Initialization configuration
+//
+// Parameters relating to the initialization of the library
+//
+struct _GLFWinitconfigjoystick
+{
+    GLFWbool      hatButtons;
+    //    struct {
+    //        GLFWbool  menubar;
+    //        GLFWbool  chdir;
+    //    } ns;
+};
+
 struct _GLFWlibraryjoystick
 {
+    GLFWbool            initialized;
+
+    struct {
+        _GLFWinitconfigjoystick init;
+    } hints;
+
     _GLFWjoystick       joysticks[GLFW_JOYSTICK_LAST + 1];
     _GLFWmapping*       mappings;
     int                 mappingCount;
@@ -76,25 +97,28 @@ struct _GLFWlibraryjoystick
 //        GLFWmonitorfun  monitor;
         GLFWjoystickfun joystick;
     } callbacks;
-};
 
-// Initialization configuration
-//
-// Parameters relating to the initialization of the library
-//
-struct _GLFWinitconfigjoystick
-{
-    GLFWbool      hatButtons;
-//    struct {
-//        GLFWbool  menubar;
-//        GLFWbool  chdir;
-//    } ns;
+    // This is defined in the platform's joystick.h
+    _GLFW_PLATFORM_LIBRARY_JOYSTICK_STATE;
 };
 
 // Global state shared between compilation units of GLFW
 //
 extern _GLFWlibraryjoystick _glfw_joystick;
+// Checks for whether the library has been initialized
+#define _GLFW_REQUIRE_INIT_JOYSTICK()                         \
+if (!_glfw_joystick.initialized)                          \
+{                                                \
+_glfwInputError(GLFW_NOT_INITIALIZED, NULL); \
+return;                                      \
+}
 
+#define _GLFW_REQUIRE_INIT_JOYSTICK_OR_RETURN(x)              \
+if (!_glfw_joystick.initialized)                          \
+{                                                \
+_glfwInputError(GLFW_NOT_INITIALIZED, NULL); \
+return x;                                    \
+}
 
 int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode);
 void _glfwPlatformUpdateGamepadGUID(char* guid);
@@ -111,6 +135,13 @@ _GLFWjoystick* _glfwAllocJoystick(const char* name,
                                   int buttonCount,
                                   int hatCount);
 void _glfwFreeJoystick(_GLFWjoystick* js);
+
+static void terminate_joystick(void)
+{
+    free(_glfw_joystick.mappings);
+    _glfw_joystick.mappings = NULL;
+    _glfw_joystick.mappingCount = 0;
+}
 
 
 //#ifdef __cplusplus

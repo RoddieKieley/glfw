@@ -50,7 +50,7 @@ _GLFWlibrary _glfw = { GLFW_FALSE };
 //
 static _GLFWerror _glfwMainThreadError;
 static GLFWerrorfun _glfwErrorCallback;
-static void terminate_joystick(void);
+extern void terminate_joystick(void);
 static _GLFWinitconfig _glfwInitHints =
 {
 //    GLFW_TRUE,      // hat buttons

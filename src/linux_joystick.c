@@ -271,20 +271,20 @@ GLFWbool _glfwInitJoysticksLinux(void)
 {
     const char* dirname = "/dev/input";
 
-    _glfw.linjs.inotify = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
-    if (_glfw.linjs.inotify > 0)
+    _glfw_joystick.linjs.inotify = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
+    if (_glfw_joystick.linjs.inotify > 0)
     {
         // HACK: Register for IN_ATTRIB to get notified when udev is done
         //       This works well in practice but the true way is libudev
 
-        _glfw.linjs.watch = inotify_add_watch(_glfw.linjs.inotify,
+        _glfw_joystick.linjs.watch = inotify_add_watch(_glfw_joystick.linjs.inotify,
                                               dirname,
                                               IN_CREATE | IN_ATTRIB | IN_DELETE);
     }
 
     // Continue without device connection notifications if inotify fails
 
-    if (regcomp(&_glfw.linjs.regex, "^event[0-9]\\+$", 0) != 0)
+    if (regcomp(&_glfw_joystick.linjs.regex, "^event[0-9]\\+$", 0) != 0)
     {
         _glfwInputError(GLFW_PLATFORM_ERROR, "Linux: Failed to compile regex");
         return GLFW_FALSE;
@@ -301,7 +301,7 @@ GLFWbool _glfwInitJoysticksLinux(void)
         {
             regmatch_t match;
 
-            if (regexec(&_glfw.linjs.regex, entry->d_name, 1, &match, 0) != 0)
+            if (regexec(&_glfw_joystick.linjs.regex, entry->d_name, 1, &match, 0) != 0)
                 continue;
 
             char path[PATH_MAX];
@@ -334,25 +334,25 @@ void _glfwTerminateJoysticksLinux(void)
             closeJoystick(js);
     }
 
-    regfree(&_glfw.linjs.regex);
+    regfree(&_glfw_joystick.linjs.regex);
 
-    if (_glfw.linjs.inotify > 0)
+    if (_glfw_joystick.linjs.inotify > 0)
     {
-        if (_glfw.linjs.watch > 0)
-            inotify_rm_watch(_glfw.linjs.inotify, _glfw.linjs.watch);
+        if (_glfw_joystick.linjs.watch > 0)
+            inotify_rm_watch(_glfw_joystick.linjs.inotify, _glfw_joystick.linjs.watch);
 
-        close(_glfw.linjs.inotify);
+        close(_glfw_joystick.linjs.inotify);
     }
 }
 
 void _glfwDetectJoystickConnectionLinux(void)
 {
-    if (_glfw.linjs.inotify <= 0)
+    if (_glfw_joystick.linjs.inotify <= 0)
         return;
 
     ssize_t offset = 0;
     char buffer[16384];
-    const ssize_t size = read(_glfw.linjs.inotify, buffer, sizeof(buffer));
+    const ssize_t size = read(_glfw_joystick.linjs.inotify, buffer, sizeof(buffer));
 
     while (size > offset)
     {
@@ -361,7 +361,7 @@ void _glfwDetectJoystickConnectionLinux(void)
 
         offset += sizeof(struct inotify_event) + e->len;
 
-        if (regexec(&_glfw.linjs.regex, e->name, 1, &match, 0) != 0)
+        if (regexec(&_glfw_joystick.linjs.regex, e->name, 1, &match, 0) != 0)
             continue;
 
         char path[PATH_MAX];
@@ -408,15 +408,15 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
         if (e.type == EV_SYN)
         {
             if (e.code == SYN_DROPPED)
-                _glfw.linjs.dropped = GLFW_TRUE;
+                _glfw_joystick.linjs.dropped = GLFW_TRUE;
             else if (e.code == SYN_REPORT)
             {
-                _glfw.linjs.dropped = GLFW_FALSE;
+                _glfw_joystick.linjs.dropped = GLFW_FALSE;
                 pollAbsState(js);
             }
         }
 
-        if (_glfw.linjs.dropped)
+        if (_glfw_joystick.linjs.dropped)
             continue;
 
         if (e.type == EV_KEY)

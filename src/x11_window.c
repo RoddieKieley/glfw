@@ -28,6 +28,7 @@
 //========================================================================
 
 #include "internal.h"
+#include "internal_joystick.h"
 
 #include <X11/cursorfont.h>
 #include <X11/Xmd.h>
@@ -68,16 +69,16 @@ static GLFWbool waitForEvent(double* timeout)
     int count = fd + 1;
 
 #if defined(__linux__)
-    if (_glfw.linjs.inotify > fd)
-        count = _glfw.linjs.inotify + 1;
+    if (_glfw_joystick.linjs.inotify > fd)
+        count = _glfw_joystick.linjs.inotify + 1;
 #endif
     for (;;)
     {
         FD_ZERO(&fds);
         FD_SET(fd, &fds);
 #if defined(__linux__)
-        if (_glfw.linjs.inotify > 0)
-            FD_SET(_glfw.linjs.inotify, &fds);
+        if (_glfw_joystick.linjs.inotify > 0)
+            FD_SET(_glfw_joystick.linjs.inotify, &fds);
 #endif
 
         if (timeout)
