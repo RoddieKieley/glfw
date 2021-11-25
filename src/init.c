@@ -28,6 +28,7 @@
 //========================================================================
 
 #include "internal.h"
+#include "internal_joystick.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -49,9 +50,10 @@ _GLFWlibrary _glfw = { GLFW_FALSE };
 //
 static _GLFWerror _glfwMainThreadError;
 static GLFWerrorfun _glfwErrorCallback;
+static void terminate_joystick(void);
 static _GLFWinitconfig _glfwInitHints =
 {
-    GLFW_TRUE,      // hat buttons
+//    GLFW_TRUE,      // hat buttons
     {
         GLFW_TRUE,  // macOS menu bar
         GLFW_TRUE   // macOS bundle chdir
@@ -84,9 +86,10 @@ static void terminate(void)
     _glfw.monitors = NULL;
     _glfw.monitorCount = 0;
 
-    free(_glfw.mappings);
-    _glfw.mappings = NULL;
-    _glfw.mappingCount = 0;
+//    free(_glfw.mappings);
+//    _glfw.mappings = NULL;
+//    _glfw.mappingCount = 0;
+    terminate_joystick();
 
     _glfwTerminateVulkan();
     _glfwPlatformTerminate();
@@ -265,9 +268,9 @@ GLFWAPI void glfwInitHint(int hint, int value)
 {
     switch (hint)
     {
-        case GLFW_JOYSTICK_HAT_BUTTONS:
-            _glfwInitHints.hatButtons = value;
-            return;
+//        case GLFW_JOYSTICK_HAT_BUTTONS:
+//            _glfwInitHints.hatButtons = value;
+//            return;
         case GLFW_COCOA_CHDIR_RESOURCES:
             _glfwInitHints.ns.chdir = value;
             return;

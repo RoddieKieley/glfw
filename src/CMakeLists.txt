@@ -1,9 +1,11 @@
 
-set(common_HEADERS internal.h mappings.h
+set(common_HEADERS internal_joystick.h internal.h mappings.h
                    "${GLFW_BINARY_DIR}/src/glfw_config.h"
                    "${GLFW_SOURCE_DIR}/include/GLFW/glfw3.h"
-                   "${GLFW_SOURCE_DIR}/include/GLFW/glfw3native.h")
-set(common_SOURCES context.c init.c input.c monitor.c vulkan.c window.c)
+                   "${GLFW_SOURCE_DIR}/include/GLFW/glfw3native.h"
+                   "${GLFW_SOURCE_DIR}/include/GLFW/glfw3joystick.h"
+                   "${GLFW_SOURCE_DIR}/include/GLFW/glfw3common.h")
+set(common_SOURCES context.c init_joystick.c init.c input_joystick.c input.c monitor.c vulkan.c window.c)
 
 add_custom_target(update_mappings
     COMMAND "${CMAKE_COMMAND}" -P "${GLFW_SOURCE_DIR}/CMake/GenerateMappings.cmake" mappings.h.in mappings.h
@@ -121,7 +123,7 @@ target_link_libraries(glfw PRIVATE ${glfw_LIBRARIES})
 # Make GCC warn about declarations that VS 2010 and 2012 won't accept for all
 # source files that VS will build (Clang ignores this because we set -std=c99)
 if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    set_source_files_properties(context.c init.c input.c monitor.c vulkan.c
+    set_source_files_properties(context.c init_joystick.c init.c input_joystick.c input.c monitor.c vulkan.c
                                 window.c win32_init.c win32_joystick.c
                                 win32_monitor.c win32_time.c win32_thread.c
                                 win32_window.c wgl_context.c egl_context.c

@@ -27,7 +27,8 @@
 // It is fine to use C99 in this file because it will not be built with VS
 //========================================================================
 
-#include "internal.h"
+//#include "internal.h"
+#include "internal_joystick.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -128,9 +129,9 @@ static GLFWbool openJoystickDevice(const char* path)
 {
     for (int jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
     {
-        if (!_glfw.joysticks[jid].present)
+        if (!_glfw_joystick.joysticks[jid].present)
             continue;
-        if (strcmp(_glfw.joysticks[jid].linjs.path, path) == 0)
+        if (strcmp(_glfw_joystick.joysticks[jid].linjs.path, path) == 0)
             return GLFW_FALSE;
     }
 
@@ -316,7 +317,7 @@ GLFWbool _glfwInitJoysticksLinux(void)
 
     // Continue with no joysticks if enumeration fails
 
-    qsort(_glfw.joysticks, count, sizeof(_GLFWjoystick), compareJoysticks);
+    qsort(_glfw_joystick.joysticks, count, sizeof(_GLFWjoystick), compareJoysticks);
     return GLFW_TRUE;
 }
 
@@ -328,7 +329,7 @@ void _glfwTerminateJoysticksLinux(void)
 
     for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
     {
-        _GLFWjoystick* js = _glfw.joysticks + jid;
+        _GLFWjoystick* js = _glfw_joystick.joysticks + jid;
         if (js->present)
             closeJoystick(js);
     }
@@ -372,9 +373,9 @@ void _glfwDetectJoystickConnectionLinux(void)
         {
             for (int jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
             {
-                if (strcmp(_glfw.joysticks[jid].linjs.path, path) == 0)
+                if (strcmp(_glfw_joystick.joysticks[jid].linjs.path, path) == 0)
                 {
-                    closeJoystick(_glfw.joysticks + jid);
+                    closeJoystick(_glfw_joystick.joysticks + jid);
                     break;
                 }
             }
